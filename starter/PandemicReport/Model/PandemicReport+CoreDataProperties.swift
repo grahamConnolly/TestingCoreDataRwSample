@@ -1,20 +1,15 @@
-# Unit Testing Core Data in iOS
-Download Materials for the `Unit Testing Core Data in iOS` tutorial I wrote for [https://www.raywenderlich.com/](https://www.raywenderlich.com/11349416-unit-testing-core-data-in-ios).
-
-## License
-```
 /// Copyright (c) 2020 Razeware LLC
-///
+/// 
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
 /// in the Software without restriction, including without limitation the rights
 /// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 /// copies of the Software, and to permit persons to whom the Software is
 /// furnished to do so, subject to the following conditions:
-///
+/// 
 /// The above copyright notice and this permission notice shall be included in
 /// all copies or substantial portions of the Software.
-///
+/// 
 /// Notwithstanding the foregoing, you may not use, copy, modify, merge, publish,
 /// distribute, sublicense, create a derivative work, and/or sell copies of the
 /// Software in any work that is designed, intended, or marketed for pedagogical or
@@ -22,7 +17,7 @@ Download Materials for the `Unit Testing Core Data in iOS` tutorial I wrote for 
 /// or information technology.  Permission for such use, copying, modification,
 /// merger, publication, distribution, sublicensing, creation of derivative works,
 /// or sale is expressly withheld.
-///
+/// 
 /// This project and source code may use libraries or frameworks that are
 /// released under various Open-Source licenses. Use of those libraries and
 /// frameworks are governed by their own individual licenses.
@@ -34,4 +29,21 @@ Download Materials for the `Unit Testing Core Data in iOS` tutorial I wrote for 
 /// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 /// THE SOFTWARE.
-```
+//
+
+import Foundation
+import CoreData
+
+extension PandemicReport {
+  @nonobjc
+  public class func fetchRequest() -> NSFetchRequest<PandemicReport> {
+    return NSFetchRequest<PandemicReport>(entityName: "PandemicReport")
+  }
+
+  @NSManaged public var id: UUID?
+  @NSManaged public var location: String?
+  @NSManaged public var numberTested: Int32
+  @NSManaged public var numberPositive: Int32
+  @NSManaged public var numberNegative: Int32
+  @NSManaged public var dateReported: Date?
+}

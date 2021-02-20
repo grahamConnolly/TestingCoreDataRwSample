@@ -1,8 +1,3 @@
-# Unit Testing Core Data in iOS
-Download Materials for the `Unit Testing Core Data in iOS` tutorial I wrote for [https://www.raywenderlich.com/](https://www.raywenderlich.com/11349416-unit-testing-core-data-in-ios).
-
-## License
-```
 /// Copyright (c) 2020 Razeware LLC
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -34,4 +29,9 @@ Download Materials for the `Unit Testing Core Data in iOS` tutorial I wrote for 
 /// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 /// THE SOFTWARE.
-```
+
+import UIKit
+import CoreData
+class SceneDelegate: UIResponder, UIWindowSceneDelegate {
+  var window: UIWindow?
+}

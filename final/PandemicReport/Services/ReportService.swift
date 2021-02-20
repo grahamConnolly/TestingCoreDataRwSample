@@ -1,20 +1,15 @@
-# Unit Testing Core Data in iOS
-Download Materials for the `Unit Testing Core Data in iOS` tutorial I wrote for [https://www.raywenderlich.com/](https://www.raywenderlich.com/11349416-unit-testing-core-data-in-ios).
-
-## License
-```
 /// Copyright (c) 2020 Razeware LLC
-///
+/// 
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
 /// in the Software without restriction, including without limitation the rights
 /// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 /// copies of the Software, and to permit persons to whom the Software is
 /// furnished to do so, subject to the following conditions:
-///
+/// 
 /// The above copyright notice and this permission notice shall be included in
 /// all copies or substantial portions of the Software.
-///
+/// 
 /// Notwithstanding the foregoing, you may not use, copy, modify, merge, publish,
 /// distribute, sublicense, create a derivative work, and/or sell copies of the
 /// Software in any work that is designed, intended, or marketed for pedagogical or
@@ -22,7 +17,7 @@ Download Materials for the `Unit Testing Core Data in iOS` tutorial I wrote for 
 /// or information technology.  Permission for such use, copying, modification,
 /// merger, publication, distribution, sublicensing, creation of derivative works,
 /// or sale is expressly withheld.
-///
+/// 
 /// This project and source code may use libraries or frameworks that are
 /// released under various Open-Source licenses. Use of those libraries and
 /// frameworks are governed by their own individual licenses.
@@ -34,4 +29,57 @@ Download Materials for the `Unit Testing Core Data in iOS` tutorial I wrote for 
 /// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 /// THE SOFTWARE.
-```
+
+import Foundation
+import CoreData
+
+public final class ReportService {
+  // MARK: - Properties
+  let managedObjectContext: NSManagedObjectContext
+  let coreDataStack: CoreDataStack
+
+  // MARK: - Initializers
+  public init(managedObjectContext: NSManagedObjectContext, coreDataStack: CoreDataStack) {
+    self.managedObjectContext = managedObjectContext
+    self.coreDataStack = coreDataStack
+  }
+}
+
+// MARK: - Public
+extension ReportService {
+  @discardableResult
+  public func add(_ location: String, numberTested: Int32, numberPositive: Int32, numberNegative: Int32) -> PandemicReport {
+    let report = PandemicReport(context: managedObjectContext)
+    report.id = UUID()
+    report.dateReported = Date()
+    report.numberTested = numberTested
+    report.numberNegative = numberNegative
+    report.numberPositive = numberPositive
+    report.location = location
+
+    coreDataStack.saveContext(managedObjectContext)
+    return report
+  }
+
+  public func getReports() -> [PandemicReport]? {
+    let reportFetch: NSFetchRequest<PandemicReport> = PandemicReport.fetchRequest()
+    do {
+      let results = try managedObjectContext.fetch(reportFetch)
+      return results
+    } catch let error as NSError {
+      print("Fetch error: \(error) description: \(error.userInfo)")
+    }
+    return nil
+  }
+
+  @discardableResult
+  public func update(_ report: PandemicReport) -> PandemicReport {
+    coreDataStack.saveContext(managedObjectContext)
+    return report
+  }
+
+  public func delete(_ report: PandemicReport) {
+    managedObjectContext.delete(report)
+    coreDataStack.saveContext(managedObjectContext)
+  }
+}
